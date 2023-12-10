@@ -31,6 +31,9 @@
 
     <section>
         <h2>Liste des notes</h2>
+        <%datas.map((e) =>{ %>
+            <p key="<%= e.key %>"> <%= e.todo + ':' + e.date %> </p>
+        <% }) %>
     </section>
     
 </body>

@@ -12,8 +12,13 @@ app.get('/', (req, res)=>{
 })
 
 app.get('/home', (req, res)=> {
-    const name ='Yannick'
-res.status(200).render('Home', {name} )
+    const name ='Yannick';
+    const datas = [
+        {id : 1, todo: "Send a letter", date: 'tomorrow'},
+        {id : 2, todo: "Shopping", date: 'today'},
+        {id : 3, todo: "Clean up house", date: 'after tomorrow'},
+    ]
+res.status(200).render('Home', {name,datas} )
 })
 
 app.get('/apropos', (req, res)=> {
