@@ -8,11 +8,12 @@ app.set("view engine", "ejs");
 app.set("views", "components");
 
 app.get('/', (req, res)=>{
-    res.status(300).render('home')
+    res.status(300).redirect('home')
 })
 
 app.get('/home', (req, res)=> {
-res.status(200).render('Home')
+    const name ='Yannick'
+res.status(200).render('Home', {name} )
 })
 
 app.get('/apropos', (req, res)=> {
