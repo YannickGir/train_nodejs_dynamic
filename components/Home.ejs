@@ -6,15 +6,7 @@
     <title>Home</title>
 </head>
 <body style="width: 50%; margin: auto;">
-    <header>
-        <h1>Bienvenue <%=name %> à l'Accueil de NotesApp</h1>
-        <nav>
-            <ul>
-                <li><a href="/home">Accueil</a></li>
-                <li><a href="/apropos">A propos</a></li>
-            </ul>
-        </nav>
-    </header>
+    <%- include('./Header.ejs')%>
     <section>
         <form action="">
             <label for="titre">Titre</label>

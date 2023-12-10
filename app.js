@@ -12,21 +12,24 @@ app.get('/', (req, res)=>{
 })
 
 app.get('/home', (req, res)=> {
+    const titlePage = 'Accueil'
     const name ='Yannick';
     const datas = [
         {id : 1, todo: "Send a letter", date: 'tomorrow'},
         {id : 2, todo: "Shopping", date: 'today'},
         {id : 3, todo: "Clean up house", date: 'after tomorrow'},
     ]
-res.status(200).render('Home', {name,datas} )
+res.status(200).render('Home', {name,datas,titlePage} )
 })
 
 app.get('/apropos', (req, res)=> {
-    res.status(200).render('Apropos')
+    const titlePage = 'A propos'
+    res.status(200).render('Apropos', {titlePage})
     })
 
 app.use((req, res)=> {
-        res.status(404).render('PageIntrouvable')
+        const titlePage = 'Error 404'
+        res.status(404).render('PageIntrouvable', {titlePage})
         })
 
 
