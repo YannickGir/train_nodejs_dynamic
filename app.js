@@ -13,7 +13,10 @@ const optionsbd = {
     database: 'notes_bd'}
 
  //middleware pour connexion, va notamment ajouter à req la méthode getConnection()
- app.use(myConnection(mysql, optionsbd,'pool'))   
+ app.use(myConnection(mysql, optionsbd,'pool'))  
+ 
+ //extraction des données du formulaire par ce middleware fourni par Express pour analyser les données provenant de formulaires HTML qui sont envoyées par des requêtes POST et ce en utilisant le module querystring permettant l'accès aux données via req.body.
+ app.use(express.urlencoded({extended:false}));
 
 //implémentation du moteur d'affichage ejs
 app.set("view engine", "ejs");
@@ -50,6 +53,24 @@ app.get('/apropos', (req, res)=> {
     const titlePage = 'A propos'
     res.status(200).render('Apropos', {titlePage})
     })
+
+app.post('/notes', (req, res)=> {
+var title = req.body.titre
+var description = req.body.description
+req.getConnection((erreur, connection)=>{
+    if(erreur)
+    console.log(erreur);
+    else 
+    connection.query(`INSERT INTO notes (id, title, description) VALUES (?, ?, ?)`, [null, title, description], (erreur, resultat) => {
+    if (erreur)
+        console.log(erreur);
+    else 
+        res.status(300).redirect('Home')
+    } )
+})
+
+console.log(title);
+})
 
 app.use((req, res)=> {
         const titlePage = 'Error 404'
