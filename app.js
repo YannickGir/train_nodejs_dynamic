@@ -55,19 +55,26 @@ app.get('/apropos', (req, res)=> {
     })
 
 app.post('/notes', (req, res)=> {
-var title = req.body.titre
-var description = req.body.description
-req.getConnection((erreur, connection)=>{
-    if(erreur)
-    console.log(erreur);
-    else 
-    connection.query(`INSERT INTO notes (id, title, description) VALUES (?, ?, ?)`, [null, title, description], (erreur, resultat) => {
-    if (erreur)
+    /*chaque fois que cette route est appelée on récupère l'id, mais attention cela dépend si on veut modifier ou créer un nouvelle note, 
+    si c'est une nouvelle note il ne faut pas récupérer d'id car il faut qu'il soit null afin qu'il soit généré automatiquement 
+    par SQL au moment de l'enregistrement d'une nouvelle note en BDD, donc ajouter une condition ternaire*/
+    let id = req.body.id === "" ? null : req.body.id
+    var title = req.body.titre
+    var description = req.body.description
+    let requeteSQL = id === null ? `INSERT INTO notes (id, title, description) VALUES (?, ?, ?)` : `UPDATE notes SET title = ?, description = ? WHERE id = ?`
+    let parameters = id === null ? [null, title, description] : [title, description, id]
+   
+    req.getConnection((erreur, connection)=>{
+        if(erreur)
         console.log(erreur);
-    else 
-        res.status(300).redirect('Home')
-    } )
-})
+        else 
+        connection.query(requeteSQL, parameters, (erreur, resultat) => {
+        if (erreur)
+            console.log(erreur);
+        else 
+            res.status(300).redirect('Home')
+        } )
+    })
 })
 
 app.use((req, res)=> {
