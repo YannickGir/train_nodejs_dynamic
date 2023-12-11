@@ -51,8 +51,11 @@ footer {
 
     <section>
         <h2>Liste des notes</h2>
-        <%datas.map((e) =>{ %>
+        <!-- <%datas.map((e) =>{ %>
             <p key="<%= e.key %>"> <%= e.todo + ':' + e.date %> </p>
+        <% }) %> -->
+        <%resultat.map((e) =>{ %>
+            <p key="<%= e.id %>"> <%= e.title + ':' + e.description %> </p>
         <% }) %>
     </section>
     
