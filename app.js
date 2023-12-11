@@ -68,8 +68,6 @@ req.getConnection((erreur, connection)=>{
         res.status(300).redirect('Home')
     } )
 })
-
-console.log(title);
 })
 
 app.use((req, res)=> {

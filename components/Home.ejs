@@ -37,6 +37,7 @@ footer {
     <%- include('./Header.ejs')%>
     <section>
         <form action="/notes" method="post">
+            <input type="hidden" id="id" name="id">
             <label for="titre">Titre</label>
             <br>
             <input type="text" id="titre" name="titre">
@@ -54,12 +55,22 @@ footer {
         <!-- <%datas.map((e) =>{ %>
             <p key="<%= e.key %>"> <%= e.todo + ':' + e.date %> </p>
         <% }) %> -->
-        <%resultat.map((e) =>{ %>
-            <p key="<%= e.id %>"> <%= e.title + ':' + e.description %> </p>
-        <% }) %>
+       <%resultat.map((e) =>{ %>
+             <p key= '<%= e.id %>' > <%= e.title + ':' + e.description %> </p> 
+             <input type='submit' value="Supprimer" onclick=''>
+             <input type='submit' value="Modifier" onclick='modifyDatas("<%= e.id %>", "<%= e.title %>", "<%= e.description %>")'>
+        <% })  %> 
+        
     </section>
     
 </body>
 <%- include('./Footer.ejs')%>
 
+<script>
+    const modifyDatas = (id, title, description)=>{
+        document.getElementById('id').value = id;
+        document.getElementById('titre').value = title;
+        document.getElementById('description').value = description;
+    }
+</script>
 </html>
