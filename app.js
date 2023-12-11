@@ -53,7 +53,25 @@ app.get('/apropos', (req, res)=> {
     const titlePage = 'A propos'
     res.status(200).render('Apropos', {titlePage})
     })
+//DELETE FROM `notes_bd`.`notes` WHERE (`id` = '6');
 
+app. delete('/notes/:id', (req, res)=> {
+    let id = req.params.id
+    req.getConnection((error, connection)=>{
+        if(error)
+        console.log(error);
+        else 
+        connection.query('DELETE FROM notes WHERE id = ?', [id], (error, result) => {
+            if (error){
+                console.error(error);
+                return res.status(500).json({ error: 'Internal Server Error' });
+        }
+      
+            else 
+                res.status(200).json({ endpoint: '/Home' });
+        } )
+    })
+})
 app.post('/notes', (req, res)=> {
     /*chaque fois que cette route est appelée on récupère l'id, mais attention cela dépend si on veut modifier ou créer un nouvelle note, 
     si c'est une nouvelle note il ne faut pas récupérer d'id car il faut qu'il soit null afin qu'il soit généré automatiquement 
@@ -76,6 +94,7 @@ app.post('/notes', (req, res)=> {
         } )
     })
 })
+
 
 app.use((req, res)=> {
         const titlePage = 'Error 404'

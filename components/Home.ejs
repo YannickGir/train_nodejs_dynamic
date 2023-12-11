@@ -55,12 +55,13 @@ footer {
         <!-- <%datas.map((e) =>{ %>
             <p key="<%= e.key %>"> <%= e.todo + ':' + e.date %> </p>
         <% }) %> -->
+        <form action="/deleteNotes" method="post"> 
        <%resultat.map((e) =>{ %>
              <p key= '<%= e.id %>' > <%= e.title + ':' + e.description %> </p> 
-             <input type='submit' value="Supprimer" onclick=''>
-             <input type='submit' value="Modifier" onclick='modifyDatas("<%= e.id %>", "<%= e.title %>", "<%= e.description %>")'>
+             <input type='button' value="Supprimer" onclick='deleteDatas("<%=e.id%>")'>
+             <input type='button' value="Modifier" onclick='modifyDatas("<%= e.id %>", "<%= e.title %>", "<%= e.description %>")'>
         <% })  %> 
-        
+        </form> 
     </section>
     
 </body>
@@ -71,6 +72,15 @@ footer {
         document.getElementById('id').value = id;
         document.getElementById('titre').value = title;
         document.getElementById('description').value = description;
+    }
+    const deleteDatas = (id)=>{
+        let endpoint = "notes/"+ id
+        fetch(
+            endpoint, {method:"DELETE"}
+        ).then(
+            (response)=>response.json()
+        ).then((data)=>window.location.href= data.endpoint)
+        .catch((error)=>console.log(error))
     }
 </script>
 </html>
