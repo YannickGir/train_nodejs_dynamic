@@ -13,7 +13,7 @@ const optionsbd = {
     user: 'root',
     password: process.env.PASSWORD,
     port: 3306,
-    database: 'notes_bdd'}
+    database: 'notes_bd'}
 
  //middleware pour connexion, va notamment ajouter à req la méthode getConnection()
  app.use(myConnection(mysql, optionsbd,'pool'))  
