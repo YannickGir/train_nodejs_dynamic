@@ -14,12 +14,17 @@ router.get('/home', (req, res)=> {
         {id : 3, todo: "Clean up house", date: 'after tomorrow'},
     ]
     req.getConnection((erreur, connection)=>{
-        if(erreur)
+        if(erreur){
         console.log(erreur);
+        res.status(500).render('../components/error.ejs', {erreur, titlePage})
+        }
         else 
         connection.query('SELECT * FROM notes', [], (erreur, resultat) => {
         if (erreur)
+        {
             console.log(erreur);
+            res.status(500).render('../components/error.ejs', {erreur,titlePage})
+            }
         else 
             res.status(200).render('Home', {resultat, name,datas,titlePage})
         } )
@@ -36,13 +41,15 @@ router.get('/apropos', (req, res)=> {
 router. delete('/notes/:id', (req, res)=> {
     let id = req.params.id
     req.getConnection((error, connection)=>{
-        if(error)
-        console.log(error);
+        if(error){
+            console.log(erreur);
+            res.status(500).render('../components/error.ejs', {erreur, titlePage})
+            }
         else 
         connection.query('DELETE FROM notes WHERE id = ?', [id], (error, result) => {
             if (error){
                 console.error(error);
-                return res.status(500).json({ error: 'Internal Server Error' });
+                res.status(500).render('../components/error.ejs', {erreur, titlePage})
         }
       
             else 
@@ -61,12 +68,16 @@ router.post('/notes', (req, res)=> {
     let parameters = id === null ? [null, title, description] : [title, description, id]
    
     req.getConnection((erreur, connection)=>{
-        if(erreur)
-        console.log(erreur);
+        if(erreur){
+            console.log(erreur);
+            res.status(500).render('../components/error.ejs', {erreur, titlePage})
+            }
         else 
         connection.query(requeteSQL, parameters, (erreur, resultat) => {
-        if (erreur)
+        if (erreur){
             console.log(erreur);
+            res.status(500).render('../components/error.ejs', {erreur, titlePage})
+            }
         else 
             res.status(300).redirect('Home')
         } )
