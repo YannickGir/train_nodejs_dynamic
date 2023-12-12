@@ -3,12 +3,14 @@ const {status} = require("express/lib/response")
 const app = express()
 const mysql = require('mysql2')
 const myConnection = require('express-myconnection')
+require('dotenv').config();
+
 
 //création d'un objet contenant les différents paramètres de connexion à la bdd mysql
 const optionsbd = {
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: process.env.PASSWORD,
     port: 3306,
     database: 'notes_bd'}
 
