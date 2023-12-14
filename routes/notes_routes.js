@@ -42,14 +42,14 @@ router. delete('/notes/:id', (req, res)=> {
     let id = req.params.id
     req.getConnection((error, connection)=>{
         if(error){
-            console.log(erreur);
-            res.status(500).render('../components/error.ejs', {erreur, titlePage})
+            console.log(error);
+            res.status(500).render('../components/error.ejs', {error, titlePage})
             }
         else 
         connection.query('DELETE FROM notes WHERE id = ?', [id], (error, result) => {
             if (error){
                 console.error(error);
-                res.status(500).render('../components/error.ejs', {erreur, titlePage})
+                res.status(500).render('../components/error.ejs', {error, titlePage})
         }
       
             else 
