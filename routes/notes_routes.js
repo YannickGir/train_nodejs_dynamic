@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
+const { body, validationResult } = require('express-validator');
+
 router.get('/', (req, res)=>{
     res.status(300).redirect('home')
 })
@@ -57,10 +59,26 @@ router. delete('/notes/:id', (req, res)=> {
         } )
     })
 })
-router.post('/notes', (req, res)=> {
+router.post('/notes',  
+  body('titre').notEmpty().withMessage('Title cannot be empty'),body('description').notEmpty().withMessage('Description cannot be empty'),
+  (req, res)=> {
     /*chaque fois que cette route est appelée on récupère l'id, mais attention cela dépend si on veut modifier ou créer un nouvelle note, 
     si c'est une nouvelle note il ne faut pas récupérer d'id car il faut qu'il soit null afin qu'il soit généré automatiquement 
     par SQL au moment de l'enregistrement d'une nouvelle note en BDD, donc ajouter une condition ternaire*/
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+
+      const titlePage = 'Accueil'; // Assuming this is your home page title
+      const name ='Yannick';
+      const datas = [
+          {id : 1, todo: "Send a letter", date: 'tomorrow'},
+          {id : 2, todo: "Shopping", date: 'today'},
+          {id : 3, todo: "Clean up house", date: 'after tomorrow'},
+      ];
+      return res.status(422).render('Home', { errors: errors.array(), resultat: [], name, datas, titlePage });
+    }
+    
     let id = req.body.id === "" ? null : req.body.id
     var title = req.body.titre
     var description = req.body.description
