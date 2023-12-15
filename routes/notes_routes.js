@@ -69,7 +69,7 @@ router. delete('/notes/:id', (req, res)=> {
     })
 })
 router.post('/notes',  
-  body('titre').notEmpty().withMessage('Title cannot be empty'),body('description').notEmpty().withMessage('Description cannot be empty'),
+  body('titre').notEmpty().withMessage('Title cannot be empty').escape(),body('description').notEmpty().withMessage('Description cannot be empty').escape(),
   (req, res)=> {
     /*chaque fois que cette route est appelée on récupère l'id, mais attention cela dépend si on veut modifier ou créer un nouvelle note, 
     si c'est une nouvelle note il ne faut pas récupérer d'id car il faut qu'il soit null afin qu'il soit généré automatiquement 
