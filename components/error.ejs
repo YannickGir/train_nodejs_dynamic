@@ -37,7 +37,10 @@ footer {
     <%- include('./Header.ejs')%>
     <section>
         <p>Veuillez remplir les champs avec un contenu valide</p>
-        <%=erreur%>
+        <% erreur.forEach(error => { %>
+            <%= error.msg %></p>
+            <hr> 
+        <% }) %>
     </section>
     
 </body>

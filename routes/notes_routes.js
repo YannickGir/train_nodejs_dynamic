@@ -80,7 +80,7 @@ router.post('/notes',
 
       const titlePage = 'Accueil'; 
       const name ='Yannick';
-      return res.status(422).render('error', { erreur: errors.array(), resultat: [], name, titlePage });
+      return res.status(422).render('error', { erreur: errors.array(), name, titlePage });
     }
     
     let id = req.body.id === "" ? null : req.body.id
