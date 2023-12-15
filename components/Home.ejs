@@ -38,15 +38,21 @@ footer {
     <section>
         <form action="/notes" method="post">
             <input type="hidden" id="id" name="id">
-            <label for="titre">Titre</label>
-            <br>
+            <label for="titre">Titre</label><br>
             <input type="text" id="titre" name="titre">
+            <% if (errors && errors.array && errors.array().find(e => e.param === 'titre')) { %>
+                <p class="error-message"><%= errors.array().find(e => e.param === 'titre').msg %></p>
+            <% } %>
             <br>
             <label for="description">Description</label><br>
             <textarea name="description" id="description" cols="20" rows="5"></textarea>
+            <% if (errors && errors.array && errors.array().find(e => e.param === 'description')) { %>
+                <p class="error-message"><%= errors.array().find(e => e.param === 'description').msg %></p>
+            <% } %>
             <br>
             <input type="submit" value="Enregistrer">
         </form>
+        
         <p>----------------------------------------------------</p>
     </section>
 
@@ -61,6 +67,7 @@ footer {
              <input type='button' value="Supprimer" onclick='deleteDatas("<%=e.id%>")'>
              <input type='button' value="Modifier" onclick='modifyDatas("<%= e.id %>", "<%= e.title %>", "<%= e.description %>")'>
         <% })  %> 
+       
         </form> 
     </section>
     

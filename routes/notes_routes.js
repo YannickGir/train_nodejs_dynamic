@@ -15,22 +15,31 @@ router.get('/home', (req, res)=> {
         {id : 2, todo: "Shopping", date: 'today'},
         {id : 3, todo: "Clean up house", date: 'after tomorrow'},
     ]
-    req.getConnection((erreur, connection)=>{
-        if(erreur){
-        console.log(erreur);
-        res.status(500).render('../components/error.ejs', {erreur, titlePage})
-        }
-        else 
-        connection.query('SELECT * FROM notes', [], (erreur, resultat) => {
-        if (erreur)
-        {
+    req.getConnection((erreur, connection) => {
+        if (erreur) {
             console.log(erreur);
-            res.status(500).render('../components/error.ejs', {erreur,titlePage})
-            }
-        else 
-            res.status(200).render('Home', {resultat, name,datas,titlePage})
-        } )
-    })
+            res.status(500).render('../components/error.ejs', { erreur, titlePage });
+        } else {
+            connection.query('SELECT * FROM notes', [], (erreurQuery, resultat) => {
+                if (erreurQuery) {
+                    console.log(erreurQuery);
+                    res.status(500).render('../components/error.ejs', { erreur: erreurQuery, titlePage });
+                } else {
+                    // Check if there are validation errors
+                    const validationErrors = validationResult(req);
+    
+                    res.status(200).render('Home', {
+                        resultat,
+                        name,
+                        datas,
+                        titlePage,
+                        errors: validationErrors.array(),  // Include validation errors here
+                    });
+                }
+            });
+        }
+    });
+    
     
 })
 
@@ -69,14 +78,9 @@ router.post('/notes',
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
 
-      const titlePage = 'Accueil'; // Assuming this is your home page title
+      const titlePage = 'Accueil'; 
       const name ='Yannick';
-      const datas = [
-          {id : 1, todo: "Send a letter", date: 'tomorrow'},
-          {id : 2, todo: "Shopping", date: 'today'},
-          {id : 3, todo: "Clean up house", date: 'after tomorrow'},
-      ];
-      return res.status(422).render('Home', { errors: errors.array(), resultat: [], name, datas, titlePage });
+      return res.status(422).render('error', { erreur: errors.array(), resultat: [], name, titlePage });
     }
     
     let id = req.body.id === "" ? null : req.body.id
