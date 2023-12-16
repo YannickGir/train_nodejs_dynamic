@@ -10,11 +10,6 @@ router.get('/', (req, res)=>{
 router.get('/home', (req, res)=> {
     const titlePage = 'Accueil'
     const name ='Yannick';
-    const datas = [
-        {id : 1, todo: "Send a letter", date: 'tomorrow'},
-        {id : 2, todo: "Shopping", date: 'today'},
-        {id : 3, todo: "Clean up house", date: 'after tomorrow'},
-    ]
     req.getConnection((erreur, connection) => {
         if (erreur) {
             console.log(erreur);
@@ -31,7 +26,6 @@ router.get('/home', (req, res)=> {
                     res.status(200).render('Home', {
                         resultat,
                         name,
-                        datas,
                         titlePage,
                         errors: validationErrors.array(),  // Include validation errors here
                     });
